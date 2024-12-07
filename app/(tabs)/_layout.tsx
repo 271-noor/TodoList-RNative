@@ -7,12 +7,18 @@ import Task from '@/components/Task';
 export default function TabLayout() {
 
   const [task, setTask] = useState();
-  const [taskItem, setTaskItem] = useState([]);
+  const [taskItems, setTaskItems] = useState([]);
 
   const handleAddTask = () => {
     Keyboard.dismiss();
-    setTaskItem([...taskItem, task]);
+    setTaskItems([...taskItems, task]);
     setTask(null);
+  }
+
+  const completeTask = (index: number) => {
+    let itemsCopy = [...taskItems];
+    itemsCopy.splice(index, 1);
+    setTaskItems(itemsCopy);
   }
 
   return (
@@ -25,12 +31,16 @@ export default function TabLayout() {
     <View style={styles.items}>
        {/* This is where the tasks will go!  */}
       {
-        taskItem.map((item, index) => {
-        return <Task key={index} text={item} />
+        taskItems.map((item, index) => {
+        return (
+            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+              <Task text={item} />
+            </TouchableOpacity>
+        )
       })
       }
-      {/* <Task text={'Task 1'} />
-      <Task text={'Task 2'} /> */}
+          {/* <Task text={'Task 1'} />
+          <Task text={'Task 2'} /> */}
     </View>
   </View>
       
