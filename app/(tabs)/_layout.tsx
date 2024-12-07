@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Image, StyleSheet, View, Text } from "react-native";
+import { Image, StyleSheet, View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput } from "react-native";
 import Task from '@/components/Task';
 
 
-
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
 
+  
 
   return (
 <View style={styles.container}>
@@ -24,7 +22,21 @@ export default function TabLayout() {
     </View>
   </View>
       
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.writeTaskWrapper} 
+            >
+              <TextInput style={styles.input} placeholder={'Write a task'} />
+              <TouchableOpacity>
+                <View style={styles.addWrapper} >
+                  <Text style={styles.addText} >+</Text>
+                </View>
+              </TouchableOpacity>
+            </KeyboardAvoidingView>
       </View>
+
+      // Write a task.
+
 
   );
 
@@ -46,5 +58,34 @@ const styles = StyleSheet.create({
       marginTop: 30,
       
     },
+    writeTaskWrapper: {
+      paddingHorizontal: 10,
+      position: 'absolute',
+      bottom: 60,
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center'
+    },
+    input: {
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      backgroundColor: '#fff',
+      borderRadius: 60,
+      borderColor: '#C0C0C0',
+      borderWidth: 1, 
+      width: 250,
+    },
+    addWrapper: {
+      width: 45,
+      height: 45,
+      backgroundColor: '#fff',
+      borderRadius: 60,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderColor: '#C0C0C0',
+      borderWidth: 1, 
+    },
+    addText: {},
   
 });
