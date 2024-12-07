@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 
-import { Image, StyleSheet, View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput } from "react-native";
+import { Image, StyleSheet, View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, TextInput, Keyboard } from "react-native";
 import Task from '@/components/Task';
 
 
 export default function TabLayout() {
 
-  
+  const [task, setTask] = useState();
+  const [taskItem, setTaskItem] = useState([]);
+
+  const handleAddTask = () => {
+    Keyboard.dismiss();
+    setTaskItem([...taskItem, task]);
+    setTask(null);
+  }
 
   return (
 <View style={styles.container}>
@@ -16,9 +23,14 @@ export default function TabLayout() {
     <Text style={styles.sectionTitle}>Today's tasks</Text>
 
     <View style={styles.items}>
-      {/* This is where the tasks will go! */}
-      <Task text={'Task 1'} />
-      <Task text={'Task 2'} />
+       {/* This is where the tasks will go!  */}
+      {
+        taskItem.map((item, index) => {
+        return <Task key={index} text={item} />
+      })
+      }
+      {/* <Task text={'Task 1'} />
+      <Task text={'Task 2'} /> */}
     </View>
   </View>
       
@@ -26,8 +38,8 @@ export default function TabLayout() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.writeTaskWrapper} 
             >
-              <TextInput style={styles.input} placeholder={'Write a task'} />
-              <TouchableOpacity>
+              <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
+              <TouchableOpacity onPress={() => handleAddTask()}>
                 <View style={styles.addWrapper} >
                   <Text style={styles.addText} >+</Text>
                 </View>
